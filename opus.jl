@@ -1,7 +1,3 @@
-module Opus
-
-export encoder_create, encoder_destroy
-
 const OPUS_APPLICATION_VOIP                = int32(2048)
 const OPUS_APPLICATION_AUDIO               = int32(2049)
 const OPUS_APPLICATION_RESTRICTED_LOWDELAY = int32(2051)
@@ -20,6 +16,4 @@ end
 
 function encoder_destroy(enc::Ptr{Void})
     ccall(opus_encoder_destroy_func,Void,(Ptr{Void},),enc)
-end
-
 end
