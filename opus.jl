@@ -3,8 +3,10 @@ const OPUS_APPLICATION_AUDIO               = int32(2049)
 const OPUS_APPLICATION_RESTRICTED_LOWDELAY = int32(2051)
 
 const libopus = "libopus"
-const opus_encoder_create_func = (:opus_encoder_create,libopus)
+const opus_encoder_create_func  = (:opus_encoder_create,libopus)
 const opus_encoder_destroy_func = (:opus_encoder_destroy,libopus)
+const opus_decoder_create_func  = (:opus_decoder_create,libopus)
+const opus_decoder_destroy_func = (:opus_decoder_destroy,libopus)
 
 function encoder_create(fs::Integer, channels::Integer)
     err::Int32 = 0;
@@ -16,4 +18,16 @@ end
 
 function encoder_destroy(enc::Ptr{Void})
     ccall(opus_encoder_destroy_func,Void,(Ptr{Void},),enc)
+end
+
+function decoder_create(fs::Integer, channels::Integer)
+    err::Int32 = 0;
+    dec = ccall(opus_decoder_create_func,Ptr{Void},
+        (Int32,Int32,Ptr{Int32}),
+        fs,channels,err)
+    dec
+end
+
+function decoder_destroy(dec::Ptr{Void})
+    ccall(opus_decoder_destroy_func,Void,(Ptr{Void},),dec)
 end
